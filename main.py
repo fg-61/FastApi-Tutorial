@@ -1,16 +1,17 @@
+from typing import Optional
 from fastapi import FastAPI
 
 app = FastAPI()
 
 
-@app.get('/')
-def index():
-    return {'data':{'name':'Blog'}}
 
+@app.get('/blog')
+def index(limit=10, published: bool = True, sort: Optional[str] = None):
+    if published:
+        return {'data':f'{limit} published blogs from the db'}
+    else:
+        return {'data':f'{limit} blogs from the db'}
 
-@app.get('/about')
-def about():
-    return {'data':'about page'}
 
 # unpublished bir aşağıda olsaydı path çakışması olacaktı
 @app.get('/blog/unpublished')
@@ -25,6 +26,6 @@ def show(id: int):
 
 
 @app.get('/blog/{id}/comments')
-def comments(id):
+def comments(id, limit=10):
     # fetch comments of blog with id = id
     return {'data': {'1', '2'}}
