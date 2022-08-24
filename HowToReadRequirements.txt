@@ -1,0 +1,6 @@
+Read and Install
+>>> pip install -r requirements.txt
+
+
+Write
+>>> pip freeze > requirements.txt
