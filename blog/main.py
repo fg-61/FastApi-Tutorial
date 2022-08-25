@@ -42,3 +42,12 @@ def get_by_id(id, response: Response, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
                             detail=f'Blog with the id:{id} is not available')
     return blog
+
+
+@app.delete('/blog/{id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete_by_id(id, db: Session = Depends(get_db)):
+    blog = db.query(models.Blog).filter(models.Blog.id == id).delete(synchronize_session=False)
+    if not blog:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+                            detail=f'Blog with the id:{id} is not available')
+    return 'done'
