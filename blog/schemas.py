@@ -16,3 +16,10 @@ class User(BaseModel):
     name: str
     email: str
     password: str
+    
+# User response model
+class ShowUser(BaseModel):
+    name: str
+    email: str
+    class Config():
+        orm_mode = True
