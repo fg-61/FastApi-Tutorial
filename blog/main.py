@@ -1,7 +1,6 @@
 from typing import List
 from fastapi import FastAPI, Depends, status, Response, HTTPException
-from . import schemas
-from . import schemas, models
+from . import schemas, models, hashing
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
 
@@ -64,3 +63,18 @@ def update_by_id(id, request: schemas.Blog, db: Session = Depends(get_db)):
     blog.update(request.dict())
     db.commit()
     return request
+
+
+# User
+
+
+
+@app.post('/user')
+def create_user(request: schemas.User, db: Session = Depends(get_db)):
+    new_user = models.User(name = request.name,
+                           email = request.email, 
+                           password = hashing.Hash.bcrypt(request.password))
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user

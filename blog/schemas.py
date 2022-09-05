@@ -1,4 +1,3 @@
-from pickle import TRUE
 from pydantic import BaseModel
 
 class Blog(BaseModel):
@@ -10,3 +9,10 @@ class ShowBlog(BaseModel):
     body: str
     class Config():
         orm_mode = True
+        
+        
+# User
+class User(BaseModel):
+    name: str
+    email: str
+    password: str
