@@ -5,6 +5,7 @@ from ..hashing import Hash
 
 
 router = APIRouter(
+    prefix = "/user",
     tags=['users']
 )
 get_db = database.get_db
@@ -12,7 +13,7 @@ get_db = database.get_db
 
 
 
-@router.post('/user', response_model=schemas.ShowUser)
+@router.post('/', response_model=schemas.ShowUser)
 def create_user(request: schemas.User, db: Session = Depends(get_db)):
     new_user = models.User(name = request.name,
                            email = request.email, 
@@ -23,7 +24,7 @@ def create_user(request: schemas.User, db: Session = Depends(get_db)):
     return new_user
 
 
-@router.get('/user/{id}', response_model=schemas.ShowUser)
+@router.get('/{id}', response_model=schemas.ShowUser)
 def get_user_by_id(id:int, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
